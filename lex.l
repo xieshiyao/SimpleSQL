@@ -5,7 +5,36 @@
 %option noyywrap nodefault case-insensitive
 %s BTWMODE
 %{
-#include<ctype.h>
+#include <ctype.h>
+#include <stdlib.h>
+#define Function _Function
+	#include <readline/readline.h>
+	#include <readline/history.h>
+#undef Function
+#define YY_INPUT(buf,result,max_size) result = mygetinput(buf, max_size);
+
+static int mygetinput(char *buf, int size) 
+{
+	//printf("in mygetinput\n");
+	char *line;
+	if (feof(yyin))  
+		return YY_NULL;
+	char*prompt = printPS2 ? PS2 : PS1;
+	printPS2 = true;
+	line = readline(prompt);
+	if(!line)        
+		return YY_NULL;
+	if(strlen(line) > size-2)
+	{
+		fprintf(stderr,"input line too long\n");
+		return YY_NULL; 
+	}
+	sprintf(buf,"%s\n",line);
+	add_history(line);
+	free(line);
+	//printf("strlen(buf): %d\n",strlen(buf));
+	return strlen(buf);
+}
 //int oldstate;
 %}
 	/*	delim	[ \t\n]
@@ -59,7 +88,7 @@ MIN			return yy::parser::make_MIN();
 
 	/* {ws}	*/ /* whitespaces */ /* ignores */
 [ \t]+			/* ignores */
-[\n]			{ printPS2 && cout << PS2; printPS2 = true; }
+[\n]			{ /* printPS2 && cout << PS2; printPS2 = true; */ }
 
 <<EOF>>			return yy::parser::make_EOF();
 

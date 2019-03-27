@@ -71,16 +71,16 @@ using namespace std;
 	yy::parser::symbol_type yylex();
 	char PS1[] = "SQL> ";
 	char PS2[] = "---> ";
-	bool printPS2 = true;
+	bool printPS2 = false;
 }
 %%
 
 
-stmt_list	: %empty			{ cout << PS1; }
-			| stmt_list stmt 	{ cout << PS1; printPS2 = false; }
+stmt_list	: %empty			{ /* cout << PS1; */ }
+			| stmt_list stmt 	{ /* cout << PS1; */ printPS2 = false; }
 			| stmt_list error ";"	{
 				cerr << "You have an error in your SQL syntax." << endl;
-				cout << PS1;
+				/* cout << PS1; */
 				printPS2 = false;
 				yyerrok;
 			}
