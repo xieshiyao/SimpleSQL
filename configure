@@ -53,7 +53,7 @@ OBJECTS=parse.o node.o bplustree.o
 HEADS=data_type.h node.h ADataBase.h bplustree.h BitSet.h Table.h Tuple.h Field.h myassert.h TableMeta.h TuplePool.h handler.h
 
 \$(PROGNAME): \$(OBJECTS)
-	\$(CXX) -o \$@ \$(OBJECTS)
+	\$(CXX) -lreadline -o \$@ \$(OBJECTS)
 
 parse.o: lex.c \$(HEADS)
 .cpp.o:
