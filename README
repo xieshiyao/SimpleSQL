@@ -1,0 +1,26 @@
+Prerequisite
+==================
+  1. Flex
+
+  2. Bison(version >= 3.2)
+        You can download the latest Bison source files from 
+        website <https://www.gnu.org/software/bison/>.
+
+Complie
+==================
+  1. 'cd' to the directory containing the package's source code
+     and type './configure' to configure the package for your
+     system.
+
+     Running 'configure' might take a while. While running. it
+     prints some messages telling which features it is checking
+     for.
+
+  2. Type 'make' to compile the package.
+
+  3. Run 'make debug' to use the DBMS.
+
+Test
+==================
+     Directory 'test/' has a file 'test.sql' which contains SQL 
+     test statements.

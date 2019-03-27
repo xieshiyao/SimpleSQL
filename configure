@@ -1,0 +1,74 @@
+#!/bin/bash
+
+function version_lt()
+{
+	test "$(echo "$@" | tr " " "\n" | sort -rV | head -n1)" != "$1";
+}
+
+echo -n "checking for g++... "
+if g++ --version &> /dev/null ;then
+	echo "g++"
+	CXX=g++
+elif clang++ --version &> /dev/null ;then
+	echo "clang++"
+	CXX=clang++
+else
+	echo "no"
+	echo "Please first install g++ or clang++!"
+	exit 1
+fi
+
+echo -n "checking for flex... "
+if ! flex --version &> /dev/null ;then
+	echo "no"
+	echo "Please install flex first!"
+	exit 1
+fi
+echo "yes"
+
+echo -n "checking for bison... "
+if bison --version &> /dev/null ;then
+	echo "yes"
+	echo -n "checking for bison version... "
+	if version_lt `bison --version | head -n1 | cut -d" " -f4` 3.2.0 ;then
+		echo -e "no\nPlease update your bison to Version 3.2.0 or higher"
+		exit 1
+	fi
+		echo "`bison --version | head -n1 | cut -d" " -f4`"
+else
+	echo "no"
+	echo "Please install bison first!"
+	exit 1
+fi
+
+echo "all checks done."
+echo "generating makefile..."
+
+cat << _EOF_ > makefile
+TESTDIR=test
+PROGNAME=\$(TESTDIR)/Adb
+CXX=$CXX
+CXXFLAGS=-std=c++11
+OBJECTS=parse.o node.o bplustree.o
+HEADS=data_type.h node.h ADataBase.h bplustree.h BitSet.h Table.h Tuple.h Field.h myassert.h TableMeta.h TuplePool.h handler.h
+
+\$(PROGNAME): \$(OBJECTS)
+	\$(CXX) -o \$@ \$(OBJECTS)
+
+parse.o: lex.c \$(HEADS)
+.cpp.o:
+	\$(CXX) \$(CXXFLAGS) -c -o \$@ \$<
+
+parse.cpp: parse.y
+	bison -o \$@ \$<
+lex.c: lex.l
+	flex -o \$@ \$<
+
+clean:
+	rm -f lex.c parse.cpp \$(PROGNAME) \$(TESTDIR)/*.db \$(TESTDIR)/*METADATA *.o
+
+debug:
+	cd \$(TESTDIR) && ./Adb
+_EOF_
+
+echo "configure done!"
