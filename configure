@@ -64,6 +64,8 @@ parse.cpp: parse.y
 lex.c: lex.l
 	flex -o \$@ \$<
 
+distclean: clean
+	rm makefile
 clean:
 	rm -f lex.c parse.cpp \$(PROGNAME) \$(TESTDIR)/*.db \$(TESTDIR)/*METADATA *.o
 
