@@ -45,32 +45,35 @@ echo "all checks done."
 echo "generating makefile..."
 
 cat << _EOF_ > makefile
-TESTDIR=test
-PROGNAME=\$(TESTDIR)/Adb
 CXX=$CXX
+_EOF_
+
+cat << "_EOF_" >> makefile
+TESTDIR=test
+PROGNAME=$(TESTDIR)/Adb
 CXXFLAGS=-std=c++11
 OBJECTS=parse.o node.o bplustree.o
 HEADS=data_type.h node.h ADataBase.h bplustree.h BitSet.h Table.h Tuple.h Field.h myassert.h TableMeta.h TuplePool.h handler.h
 
-\$(PROGNAME): \$(OBJECTS)
-	\$(CXX) -lreadline -o \$@ \$(OBJECTS)
+$(PROGNAME): $(OBJECTS)
+	$(CXX) -lreadline -o $@ $(OBJECTS)
 
-parse.o: lex.c \$(HEADS)
+parse.o: lex.c $(HEADS)
 .cpp.o:
-	\$(CXX) \$(CXXFLAGS) -c -o \$@ \$<
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 parse.cpp: parse.y
-	bison -o \$@ \$<
+	bison -o $@ $<
 lex.c: lex.l
-	flex -o \$@ \$<
+	flex -o $@ $<
 
 distclean: clean
 	rm makefile
 clean:
-	rm -f lex.c parse.cpp \$(PROGNAME) \$(TESTDIR)/*.db \$(TESTDIR)/*METADATA *.o
+	rm -f lex.c parse.cpp $(PROGNAME) $(TESTDIR)/*.db $(TESTDIR)/*METADATA *.o
 
 debug:
-	cd \$(TESTDIR) && ./Adb
+	cd $(TESTDIR) && ./Adb
 _EOF_
 
 echo "configure done!"
