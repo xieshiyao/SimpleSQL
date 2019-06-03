@@ -2,10 +2,10 @@
 #define DATA_TYPE_H
 struct Data_type {
 	enum DType {
-		INT, 
+		INT,
 		SMALLINT,
 		BIGINT,
-		REAL, 
+		REAL,
 		DOUBLEPRECISION,
 		BOOLEAN,
 		CHAR

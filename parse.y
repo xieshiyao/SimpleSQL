@@ -86,23 +86,23 @@ stmt_list	: %empty			{ /* cout << PS1; */ }
 			}
 			;
 
-stmt		: select_stmt 
-			| create_table_stmt 
-			| drop_stmt 
-			| insert_stmt 
-			| update_stmt 
-			| delete_stmt 
+stmt		: select_stmt
+			| create_table_stmt
+			| drop_stmt
+			| insert_stmt
+			| update_stmt
+			| delete_stmt
 			| EXIT		{ return 0; }
 			;
 
 
 /* ----- select_stmt begin ----- */
-select_stmt	: SELECT select_opts select_expr_list 
-				FROM ID 
+select_stmt	: SELECT select_opts select_expr_list
+				FROM ID
 				opt_where
 				opt_groupby
 				opt_orderby ";" {
-				select_from_table_handle($select_opts, $select_expr_list, 
+				select_from_table_handle($select_opts, $select_expr_list,
 					$ID, $opt_where,
 					$opt_groupby, $opt_orderby);
 			}
@@ -167,7 +167,7 @@ delete_stmt	: DELETE FROM ID opt_where ";"	{
 
 
 /* ----- insert_stmt begin ----- */
-insert_stmt	: INSERT 
+insert_stmt	: INSERT
 				INTO ID opt_col_names
 				VALUES "(" insert_vals ")" ";"	{
 					insert_into_table_handle($ID, $opt_col_names, $insert_vals);
@@ -251,7 +251,7 @@ column_attr			: NOT NULL		{ $$ = 0x1; }
 
 
 /* ----- drop_stmt begin ----- */
-drop_stmt	: DROP TABLE ID ";" /* opt_restrict_cascade */	{ 
+drop_stmt	: DROP TABLE ID ";" /* opt_restrict_cascade */	{
 				drop_table_handle($ID);
 			}
 			;

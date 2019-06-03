@@ -12,7 +12,7 @@ class Table {
 	bplus_tree* index;	// 索引，B+树
 
 	static constexpr int bptBlockSize = 2048;		// b+树结点块的大小
-	
+
 	void initMeta();
 	void initPool();
 	void drop() const;
@@ -38,7 +38,7 @@ public:
 };
 
 // ctor，参数tag表示是否从文件中恢复数据，默认为false
-inline Table::Table(const std::string& name, bool tag) :name(name), 
+inline Table::Table(const std::string& name, bool tag) :name(name),
 	pool(name + dbSuffix), index(nullptr)
 {
 	if (tag) {

@@ -1191,7 +1191,7 @@ struct bplus_tree *bplus_tree_init(char *filename, int block_size, int key_size)
 	/* set order and entries */
 	_max_order = (_block_size - sizeof(node)) / (key_size + sizeof(off_t));
 	_max_entries = (_block_size - sizeof(node)) / (key_size + sizeof(long));
-	
+
 	//printf("config node order:%d and leaf entries:%d\n", _max_order, _max_entries);
 
 	/* init free node caches */

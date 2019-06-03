@@ -22,7 +22,7 @@ using std::map;
 static ADataBase db;
 const char* todo = "You have an error in your SQL syntax. ";
 const char* error = "You have an error in your SQL syntax. ";
- 
+
 // 创建表
 inline void create_table_handle(const string& name, const vector<Data_def> fields)
 {
@@ -50,7 +50,7 @@ inline void create_table_handle(const string& name, const vector<Data_def> field
 			if (meta.exist(field.name)) {
 				// 该属性已存在
 				cerr << "Duplicate column name '" << field.name << "'." << endl;
-				db.delTable(name);	// ??? may occur error 
+				db.delTable(name);	// ??? may occur error
 				right = false;
 				break;
 			}
@@ -130,7 +130,7 @@ inline bool have_all_necessary_field(const vector<Field>& defs, const vector<str
 		if (def.isNotNull() && set.find(def.getName()) == set.end()){
 			cerr << "Missing not-null field '" << def << "'." << endl;
 			ret = false;
-		} 
+		}
 	}
 	return ret;
 }
@@ -308,7 +308,7 @@ inline void insert_into_table_handle(const string& name, const vector<string>& f
 	Table* table = db[name];
 	if (!table) // 不存在指定的表
 		cerr << "Table '" << name << "' doesn't exist." << endl;
-	else 
+	else
 		insert_into_table_handle(table, fields, values);
 
 	// free memory
@@ -377,7 +377,7 @@ inline bool check_first_row(Table* table, const select_expr_list& cols, const op
 		Node* node = cols.front().first;
 		if (node->type == Node::STAR) { // 出现星号，size必须为1
 			showAllFields = true;
-			break; 
+			break;
 		}
 		else if (node->isFunction()) {
 			const string& id = ((Function*)(node))->id;
@@ -539,7 +539,7 @@ inline void select_from_table(Table* table, const select_expr_list& cols, const 
 	const TableMeta& meta = table->getMeta();
 	const auto& fields = meta.getFields();
 	TuplePool& pool = table->getPool();
-	
+
 	vector<int> vcr; // 保存要打印的属性的下标
 	show_which_fields(meta, vcr, showAllFields, cols);
 
@@ -579,7 +579,7 @@ inline void select_from_table(Table* table, const select_expr_list& cols, const 
 			bool right;
 			try {
 				right = where->evalBool(map);
-				for (const auto& p : map) { // free memory TODO 
+				for (const auto& p : map) { // free memory TODO
 					delete p.second;
 				}
 			}
@@ -628,8 +628,8 @@ inline void select_from_table(Table* table, const select_expr_list& cols, const 
 		}
 	}
 }
-inline void select_from_table(Table* table, const select_expr_list& cols, 
-	Node* where, const opt_groupby& grouby, const opt_orderby& orderby) 
+inline void select_from_table(Table* table, const select_expr_list& cols,
+	Node* where, const opt_groupby& grouby, const opt_orderby& orderby)
 {
 	if (!orderby.first.empty()) { // TODO 目前不支持 order by
 		cerr << todo << "[ORDER BY]" << endl;
@@ -662,7 +662,7 @@ inline void select_from_table_handle(
 		cerr << "Table '" << tableName << "' doesn't exist." << endl;
 	}
 	else if (showAll) {
-		select_from_table(table, fields, where, groupby, orderby);		
+		select_from_table(table, fields, where, groupby, orderby);
 	}
 	else { // TODO distinct 目前不支持去重显示
 		cout << todo << "[DISTINCT]" << endl;
@@ -684,7 +684,7 @@ inline bool check_set_stmt(Table* table, const set_col_list& cols)
 	for (const auto& col : cols) {
 		const string& name = col.first;
 		// 瞎写属性的
-		if (!meta.exist(name)) { 
+		if (!meta.exist(name)) {
 			cerr << "Unknown column '" << name << "' in field list." << endl;
 			return false;
 		}

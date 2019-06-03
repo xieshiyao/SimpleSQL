@@ -13,21 +13,21 @@
 #undef Function
 #define YY_INPUT(buf,result,max_size) result = mygetinput(buf, max_size);
 
-static int mygetinput(char *buf, int size) 
+static int mygetinput(char *buf, int size)
 {
 	//printf("in mygetinput\n");
 	char *line;
-	if (feof(yyin))  
+	if (feof(yyin))
 		return YY_NULL;
 	char*prompt = printPS2 ? PS2 : PS1;
 	printPS2 = true;
 	line = readline(prompt);
-	if(!line)        
+	if(!line)
 		return YY_NULL;
 	if(strlen(line) > size-2)
 	{
 		fprintf(stderr,"input line too long\n");
-		return YY_NULL; 
+		return YY_NULL;
 	}
 	sprintf(buf,"%s\n",line);
 	add_history(line);
@@ -122,7 +122,7 @@ FROM			return yy::parser::make_FROM();
 GROUP			return yy::parser::make_GROUP();
 HAVING			return yy::parser::make_HAVING();
 INDEX			return yy::parser::make_INDEX();
-IN				return yy::parser::make_IN();		
+IN				return yy::parser::make_IN();
 INSERT			return yy::parser::make_INSERT();
 INTERSECT		return yy::parser::make_INTERSECT();
 INTO			return yy::parser::make_INTO();

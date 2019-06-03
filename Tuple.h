@@ -16,13 +16,13 @@ public:
 
 // not-copy-just-reference
 class Tuple {
-	//template <int n> 
+	//template <int n>
 	friend class TuplePool;
 
 	uint8_t* data;			// 数据
 	const TableMeta* meta;	// 所属的表的元数据
 	BitSet info;			// 信息位，函数 isEmpty()/setEmpty()/isNull()/setNull() 均依赖于此
-	
+
 public:
 	Tuple(uint8_t* data, const TableMeta& meta);
 	~Tuple() = default;

@@ -31,17 +31,17 @@ struct Node {// *(STAR) IS NODE
 
 	Node(NType t) :type(t) {};
 	virtual ~Node() {}
-	bool isLeaf() { 
-		return type >= NType(NULL) && type <= BOOL_CONST; 
+	bool isLeaf() {
+		return type >= NType(NULL) && type <= BOOL_CONST;
 	}
-	bool isUnary() { 
-		return type >= UMINUS && type <= NOT; 
+	bool isUnary() {
+		return type >= UMINUS && type <= NOT;
 	}
-	bool isBinary() { 
-		return type >= PLUS && type <= NE; 
+	bool isBinary() {
+		return type >= PLUS && type <= NE;
 	}
-	bool isTernary() { 
-		return type == BETWEENAND; 
+	bool isTernary() {
+		return type == BETWEENAND;
 	}
 	bool isFunction() {
 		return type >= COUNT && type <= MIN;

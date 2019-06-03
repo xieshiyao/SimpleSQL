@@ -12,7 +12,7 @@ inline void assert(bool condition, const char* msg)
 	if (!condition) {
 		perror(msg);
 		exit(EXIT_FAILURE);
-	}	
+	}
 #endif // ASSERT
 }
 #endif // !MY_ASSERT_H

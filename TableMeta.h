@@ -20,7 +20,7 @@ class TableMeta {
 
 	friend class Table;
 	friend class Tuple;
-	//template <int n> 
+	//template <int n>
 	friend class TuplePool;
 	friend std::ofstream& operator<<(std::ofstream& fout, TableMeta& meta);
 	friend std::ifstream& operator>>(std::ifstream& fin, TableMeta& meta);

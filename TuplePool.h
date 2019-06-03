@@ -70,7 +70,7 @@ public:
 		if (fs)
 			mmap(fs);
 	}
-	
+
 	~TuplePool() {
 		// 将pool中的元组写到磁盘，然后才可以delete以释放内存
 		if(meta)
@@ -87,7 +87,7 @@ public:
 			ret = munmap(mmf, fs);
 			assert(ret == 0, "munmap");
 		}
-	} 
+	}
 
 	// 往缓冲池中插入空元组，并返回该元组
 	Tuple insert() {	// 不要怀疑，这里可以直接返回变量，而不用返回引用，靠编译器进行RVO优化，下同
@@ -164,7 +164,7 @@ public:
 				size_t dSize = (size() - i) * meta->tupleSize;	// 新增部分的大小
 				ssize_t ret2 = write(fd, ptr(i), dSize);
 				assert(ret2 == dSize, "write");
-				
+
 				if (mmf)
 					mremap(dSize);	// 当有append操作时，必须重建内存映射，这也是mmap方法的一个缺点
 				else
